@@ -1,0 +1,14 @@
+const mongoose = require("mongoose")
+
+
+const postSchema = new mongoose.Schema({
+    image:String,
+    caption:String
+
+})
+
+
+const postModel = mongoose.model("post",postSchema) // post in string is a name of collection in database
+
+
+module.exports = postModel
