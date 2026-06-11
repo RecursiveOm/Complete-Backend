@@ -1,0 +1,585 @@
+/* ================= RESET ================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Inter,system-ui,sans-serif;
+}
+
+
+html{
+
+  scroll-behavior:smooth;
+
+}
+
+
+body{
+
+  min-height:100vh;
+
+  color:white;
+
+  background:
+  radial-gradient(circle at top left,#750000,transparent 35%),
+  radial-gradient(circle at bottom right,#330000,transparent 40%),
+  #020202;
+
+  overflow-x:hidden;
+
+}
+
+
+
+/* ================= SCROLLBAR ================= */
+
+
+::-webkit-scrollbar{
+
+  width:8px;
+
+}
+
+
+::-webkit-scrollbar-track{
+
+  background:black;
+
+}
+
+
+::-webkit-scrollbar-thumb{
+
+  background:
+  linear-gradient(red,#550000);
+
+  border-radius:30px;
+
+}
+
+
+
+
+
+/* ================= CREATE POST ================= */
+
+
+.create-post-section{
+
+
+  height:100vh;
+
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  flex-direction:column;
+
+
+  gap:35px;
+
+}
+
+
+
+
+.create-post-section h1{
+
+
+  font-size:70px;
+
+  font-weight:1000;
+
+
+  text-transform:uppercase;
+
+
+  background:
+  linear-gradient(
+    90deg,
+    red,
+    white,
+    red
+  );
+
+
+  -webkit-background-clip:text;
+
+
+  color:transparent;
+
+
+  filter:
+  drop-shadow(0 0 25px red);
+
+}
+
+
+
+
+
+form{
+
+
+  width:480px;
+
+
+  padding:45px;
+
+
+
+  background:
+  rgba(10,10,10,.55);
+
+
+
+  backdrop-filter:blur(25px);
+
+
+
+  border-radius:35px;
+
+
+
+  border:
+  1px solid rgba(255,0,0,.5);
+
+
+
+  box-shadow:
+
+  0 0 100px rgba(255,0,0,.35);
+
+
+  display:flex;
+
+  flex-direction:column;
+
+
+  gap:25px;
+
+}
+
+
+
+input{
+
+
+  padding:18px;
+
+
+  border-radius:20px;
+
+
+  background:#050505;
+
+
+  border:
+  1px solid #5c0000;
+
+
+  color:white;
+
+
+  outline:none;
+
+
+  font-size:17px;
+
+
+}
+
+
+
+input:focus{
+
+
+  border-color:red;
+
+
+  box-shadow:
+  0 0 30px red;
+
+}
+
+
+
+button{
+
+
+  padding:18px;
+
+
+  border-radius:25px;
+
+
+  border:none;
+
+
+
+  background:
+  linear-gradient(
+    135deg,
+    #5a0000,
+    red
+  );
+
+
+
+  color:white;
+
+
+  font-size:20px;
+
+  font-weight:900;
+
+
+  cursor:pointer;
+
+
+}
+
+
+
+button:hover{
+
+
+  transform:scale(1.08);
+
+
+  box-shadow:
+  0 0 60px red;
+
+}
+
+
+
+
+
+/* ================= CRAZY FEED ================= */
+
+
+.feed-section{
+
+
+  min-height:100vh;
+
+
+  display:flex;
+
+  flex-direction:column;
+
+
+  align-items:center;
+
+
+
+  gap:120px;
+
+
+  padding:60px 0;
+
+
+
+  scroll-snap-type:y mandatory;
+
+
+}
+
+
+
+
+
+/* CARD */
+
+
+.post-card{
+
+
+  width:560px;
+
+
+  min-height:700px;
+
+
+
+  scroll-snap-align:center;
+
+
+
+  background:
+  rgba(10,10,10,.65);
+
+
+
+  backdrop-filter:blur(30px);
+
+
+
+  border-radius:40px;
+
+
+  overflow:hidden;
+
+
+
+  border:
+  1px solid rgba(255,0,0,.4);
+
+
+
+  box-shadow:
+
+  0 40px 120px black,
+
+  0 0 80px rgba(255,0,0,.25);
+
+
+
+  animation:
+
+  cardReveal linear both;
+
+
+
+  animation-timeline:view();
+
+
+
+  animation-range:
+  entry 0%
+  cover 45%;
+
+
+  transition:.5s;
+
+
+}
+
+
+
+
+
+/* removes old EchoFeed */
+.post-card::before{
+
+  content:none !important;
+
+}
+
+
+
+
+@keyframes cardReveal{
+
+
+from{
+
+
+opacity:0;
+
+
+transform:
+
+translateY(200px)
+
+scale(.7)
+
+rotateX(35deg);
+
+
+
+filter:blur(20px);
+
+
+}
+
+
+
+to{
+
+
+opacity:1;
+
+
+
+transform:
+
+translateY(0)
+
+scale(1)
+
+rotateX(0);
+
+
+
+filter:blur(0);
+
+
+}
+
+
+}
+
+
+
+
+
+.post-card:hover{
+
+
+transform:
+
+scale(1.05);
+
+
+
+box-shadow:
+
+0 0 150px rgba(255,0,0,.7);
+
+
+}
+
+
+
+
+
+
+.post-card img{
+
+
+width:100%;
+
+
+height:620px;
+
+
+object-fit:cover;
+
+
+
+transition:.6s;
+
+
+}
+
+
+
+
+.post-card:hover img{
+
+
+transform:scale(1.15);
+
+
+}
+
+
+
+
+
+.post-card p{
+
+
+padding:28px;
+
+
+
+font-size:28px;
+
+
+font-weight:1000;
+
+
+
+background:
+
+linear-gradient(
+90deg,
+black,
+#250000
+);
+
+
+
+text-transform:capitalize;
+
+
+
+}
+
+
+
+
+/* EMPTY FEED */
+
+.feed-section h1{
+
+
+margin-top:250px;
+
+
+font-size:60px;
+
+
+color:red;
+
+
+text-shadow:
+0 0 60px red;
+
+
+}
+
+
+
+
+
+/* MOBILE */
+
+
+@media(max-width:650px){
+
+
+.post-card{
+
+
+width:92%;
+
+min-height:auto;
+
+
+}
+
+
+.post-card img{
+
+
+height:500px;
+
+
+}
+
+
+
+form{
+
+width:90%;
+
+}
+
+
+.create-post-section h1{
+
+
+font-size:40px;
+
+}
+
+
+}
