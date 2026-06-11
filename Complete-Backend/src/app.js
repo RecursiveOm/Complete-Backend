@@ -1,42 +1,52 @@
-// importing express framework
+// importing express
 const express = require("express")
 
-// creating express application
+
+// importing note model
+const noteModel = require("./models/note.model")
+
+
+// creating app
 const app = express()
 
 
 // middleware
-// converts incoming JSON data into JS object
-// without this req.body will be undefined
+// converts JSON data into JS object
 app.use(express.json())
 
 
-// temporary database (array)
-// later MongoDB will replace this
-const notes = []
 
 
 
 // ================= CREATE =================
 // METHOD : POST
-// PURPOSE : Add new note
 // URL : /notes
 
-app.post("/notes",(req,res)=>{
 
-    // getting data sent by client(Postman/frontend)
+app.post("/notes", async(req,res)=>{
+
+
+    // data coming from postman/frontend
     const data = req.body
 
 
-    // adding data into our array database
-    notes.push(data)
+
+    // saving data in MongoDB
+    const note = await noteModel.create({
+
+        title:data.title,
+
+        content:data.content
+
+    })
 
 
-    // sending response back
+
     res.status(201).json({
 
         message:"Note created successfully",
-        note:data
+
+        note:note
 
     })
 
@@ -45,20 +55,28 @@ app.post("/notes",(req,res)=>{
 
 
 
+
+
+
 // ================= READ ALL =================
 // METHOD : GET
-// PURPOSE : Fetch all notes
 // URL : /notes
 
 
-app.get("/notes",(req,res)=>{
+app.get("/notes", async(req,res)=>{
+
+
+
+    // fetching all notes from MongoDB
+
+    const notes = await noteModel.find()
+
 
 
     res.status(200).json({
 
-        message:"All notes fetched successfully",
+        message:"All notes fetched",
 
-        // sending complete notes array
         notes:notes
 
     })
@@ -69,129 +87,138 @@ app.get("/notes",(req,res)=>{
 
 
 
-// ================= READ SINGLE =================
+
+
+
+// ================= READ ONE =================
 // METHOD : GET
-// PURPOSE : Get one note using index
-// URL : /notes/0
+// URL : /notes/:id
 
 
-app.get("/notes/:index",(req,res)=>{
+app.get("/notes/:id", async(req,res)=>{
 
 
-    // params come from URL
-    const index = req.params.index
+
+    // id coming from URL
+
+    const id = req.params.id
 
 
-    // checking note exists or not
-    if(!notes[index]){
+
+    const note = await noteModel.findById(id)
+
+
+
+
+    if(!note){
 
         return res.status(404).json({
 
             message:"Note not found"
 
         })
+
     }
+
+
+
 
 
     res.status(200).json({
 
-        message:"Note fetched successfully",
-        note:notes[index]
+        message:"Note fetched",
+
+        note:note
 
     })
 
+
 })
+
+
+
+
 
 
 
 
 // ================= UPDATE =================
 // METHOD : PATCH
-// PURPOSE : Update existing note
-// URL : /notes/update/0
+// URL : /notes/:id
 
 
-app.patch("/notes/update/:index",(req,res)=>{
+app.patch("/notes/:id", async(req,res)=>{
 
 
-    const index = req.params.index
-
-
-    // new updated content from body
-    const content = req.body.content
-    const title = req.body.title
+    const id = req.params.id
 
 
 
-    // check index exists
-    if(!notes[index]){
-
-        // return stops further execution
-        return res.status(404).json({
-
-            message:"Note not found"
-
-        })
-    }
+    const updatedNote = await noteModel.findByIdAndUpdate(
 
 
+        id,
 
-    // updating only content
-    notes[title].title=title;
-    notes[index].content = content
+
+        {
+
+            title:req.body.title,
+
+            content:req.body.content
+
+        },
+
+
+        {
+            // returns updated data
+            new:true
+        }
+
+
+    )
+
 
 
 
     res.status(200).json({
 
-        message:`Note updated successfully at index ${index}`,
-        note:notes[index]
+        message:"Note updated successfully",
+
+        note:updatedNote
 
     })
 
-
 })
+
+
+
+
+
 
 
 
 
 // ================= DELETE =================
 // METHOD : DELETE
-// PURPOSE : Delete note
-// URL : /notes/0
+// URL : /notes/:id
 
 
-app.delete("/notes/:index",(req,res)=>{
-
-
-    const index = req.params.index
+app.delete("/notes/:id", async(req,res)=>{
 
 
 
-    if(!notes[index]){
-
-        return res.status(404).json({
-
-            message:"Note not found"
-
-        })
-
-    }
+    const id = req.params.id
 
 
 
-    // delete removes value but leaves empty space
-    // delete notes[index]
+    await noteModel.findByIdAndDelete(id)
 
-
-    // splice actually removes from array
-    notes.splice(index,1)
 
 
 
     res.status(200).json({
 
-        message:`Note deleted successfully at index ${index}`
+        message:"Note deleted successfully"
 
     })
 
@@ -201,5 +228,5 @@ app.delete("/notes/:index",(req,res)=>{
 
 
 
-// exporting app to server.js
+// exporting app
 module.exports = app
