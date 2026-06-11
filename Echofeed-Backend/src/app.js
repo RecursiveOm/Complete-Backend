@@ -8,6 +8,7 @@ const upload = multer({storage: multer.memoryStorage()});
 
 app.use(express.json())
 
+
  // createing a post 
 // app.post("/create-post",async(req,res)=>{
 

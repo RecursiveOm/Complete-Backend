@@ -1,13 +1,13 @@
 // importing mongoose
 const mongoose = require("mongoose")
-
+require("dotenv").config();
 
 // function for database connection
 async function connectdb(){
 
 
     await mongoose.connect(
-        "mongodb+srv://zero:strangehitler%402006@cluster0.3v33nan.mongodb.net/Echofeed-Backend"
+        process.env.MONGODB_CONNECT_URL
         
     )
 
