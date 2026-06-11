@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import CreatePost from './pages/CreatePost'
-import Feed from './pages/feed'
+import Feed from './pages/Feed'
 
 const App = () => {
 
