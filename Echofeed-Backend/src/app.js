@@ -8,8 +8,8 @@ const app = express()
 
 app.use(express.json())
 
- 
-app.post("/createpost",async(req,res)=>{
+ // createing a post 
+app.post("/create-post",async(req,res)=>{
 
     const data = req.body;
 
@@ -24,11 +24,19 @@ app.post("/createpost",async(req,res)=>{
         createdpost :createdpost
     })
 
+})
+app.get("/feed-post", async (req,res)=>{
+
+    const feedpost = await postModel.find()
 
 
+    res.status(200).json({
 
+        message:"All feed posts have been fetched successfully",
 
+        feedpost:feedpost
 
+    })
 
 })
 
